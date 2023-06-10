@@ -1,0 +1,83 @@
+import pygame
+import random
+import time
+
+pygame.init()
+
+class Mole:
+    def __init__(self, x, y, w, h, texture):
+        self.rect = pygame.Rect(x, y, w, h)
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+        self.texture = pygame.transform.scale(pygame.image.load(texture), (w, h))
+
+    def draw(self, window):
+        #pygame.draw.rect(window,(0, 0, 0), self.rect)
+        window.blit(self.texture, [self.rect.x, self.rect.y])
+
+
+background = pygame.image.load("Копія _background.png")
+
+mole = (Mole(200, 200, 75, 90, "Копія _mole_1.png"))
+
+window = pygame.display.set_mode((940,470))
+fps = pygame.time.Clock()
+
+lastChanges = time.time()
+n = random.randint(1,9)
+
+pygame.mixer.init()
+pygame.mixer.music.load("Копія _count_down.wav_")
+pygame.mixer.music.play(-1)
+
+HammeringSound = pygame.mixer.Sound("burp2.wav")
+
+game = True
+
+while game:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            game = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            HammeringSound.play()
+
+
+    if time.time() - lastChanges > 0.5:
+        n = random.randint(1, 9)
+        lastChanges = time.time()
+    if n == 1:
+        mole.rect.x = 75
+        mole.rect.y = 0
+    if n == 2:
+        mole.rect.x = 390
+        mole.rect.y = 0
+    if n == 3:
+        mole.rect.x = 700
+        mole.rect.y = 0
+    if n == 4:
+        mole.rect.x = 75
+        mole.rect.y = 150
+    if n == 5:
+        mole.rect.x = 390
+        mole.rect.y = 150
+    if n == 6:
+        mole.rect.x = 700
+        mole.rect.y = 150
+    if n == 7:
+        mole.rect.x = 75
+        mole.rect.y = 300
+    if n == 8:
+        mole.rect.x = 390
+        mole.rect.y = 300
+    if n == 9:
+        mole.rect.x = 700
+        mole.rect.y = 300
+
+    window.fill((123,123,123))
+    window.blit(background, [0,0])
+    mole.draw(window)
+    pygame.display.flip()
+
+    fps.tick()
